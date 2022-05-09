@@ -3,6 +3,61 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+  let words, speed, current, interval;
+  words = ['']
+  current = 0
+
+  const clickHandler = function (event) {
+    start(event);
+    stop(event);
+  };
+
+  const start = function (event) {
+
+    if (event.target.id !== 'start' || !text.value.length) return;
+
+    words = text.value.split(' ').filter(function (word) {
+      return word.length;
+    });
+
+
+    speed = (60 / parseInt(wpm.value, 10)) * 1000;
+
+    current = 0;
+
+    run();
+
+  };
+
+  const run = function () {
+
+    // Run the reader
+    interval = setInterval(function () {
+
+      // If there are no more words, stop
+      if (!words[current]) {
+        end();
+        return;
+      }
+
+      current++;
+
+    }, speed);
+
+  };
+
+  const stop = function (event) {
+
+    if (event.target.id !== 'stop') return;
+
+    end();
+
+  };
+
+  var end = function () {
+    clearInterval(interval);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,43 +67,24 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <details id="settings">
+          <summary>Settings</summary>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+          <label htmlFor="text">Text to Read</label>
+          <textarea id="text"></textarea>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <label htmlFor="wpm">Words Per Minute</label>
+          <input type="tel" id="wpm" min="1" value="250" />
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+          <button onClick={clickHandler} id="start">Start</button> <button id="stop">Stop</button>
+        </details>
+        <div id={styles.readerWrapper}>
+          <div id="reader" aria-live="assertive">
+            {
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+            }
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          </div>
         </div>
       </main>
 

@@ -10,6 +10,24 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+}
+
+#readerWrapper {
+  width: 800px;
+  height: 540px;
+  background-color: #f8f8f8;
+
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+
+  position: relative;
+  top: 14px;
+  margin: 0 auto;
+
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .footer {
